@@ -1,19 +1,20 @@
 import Link from "next/link";
 
+
 const Navbar = () => {
   return (
-    <nav>
-      <ul>
-        <li>
+    <nav className="text-white">
+      <div className="container mx-auto flex item-center justify-between p-4">
+        <div className="logo">
+            <h2>G</h2>
+            
+        </div>
+        <div className="space-x-4 items-center">
           <Link href={"/"}>Home</Link>
-        </li>
-        <li>
           <Link href={"/projects"}>Projects</Link>
-        </li>
-        <li>
           <Link href={"/about-me"}>About Me</Link>
-        </li>
-      </ul>
+        </div>
+      </div>
     </nav>
   );
 };
