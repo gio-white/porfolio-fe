@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/AceternityUI";
 
 export const BentoGrid = ({
   className,
@@ -26,7 +26,7 @@ export const BentoGridItem = ({
   description,
   header,
   icon,
-  img
+  img,
 }: {
   className?: string;
   id: number;
@@ -34,7 +34,7 @@ export const BentoGridItem = ({
   description?: string | React.ReactNode;
   header?: React.ReactNode;
   icon?: React.ReactNode;
-  img?: string
+  img?: string;
 }) => {
   return (
     <div

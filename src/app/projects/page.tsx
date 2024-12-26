@@ -1,6 +1,12 @@
+import { ExpandableCardDemo } from "@/components/projects/ProjectsList";
+import FilterBar from "@/components/projects/FilterBar";
+
 const Projects = () => {
   return (
-    <div>Projects</div>
-  )
-}
-export default Projects
+    <section className="w-full flex flex-col">
+      <FilterBar />
+      <ExpandableCardDemo />
+    </section>
+  );
+};
+export default Projects;
