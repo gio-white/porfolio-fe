@@ -1,5 +1,4 @@
 import { FlipWordsHome } from "./ui/FlipWordsHome";
-import { HeroParallaxHome } from "./ui/HeroParallaxHome";
 import { SocialLinks } from "./ui/SocialLinkHome";
 
 const Hero = () => {
