@@ -1,4 +1,4 @@
-import { BentoGrid, BentoGridItem } from "./ui/BentoGridHome";
+import { BentoGrid, BentoGridItem } from "../../ui/BentoGridHome";
 import { certification } from "@/data/home-page/highlights";
 
 const HighlightsGrid = () => {

@@ -1,11 +1,10 @@
 import { FlipWordsHome } from "./ui/FlipWordsHome";
-import { HeroParallaxHome } from "./ui/HeroParallaxHome";
+import { ProjectsParallaxHome } from "./ui/ProjectsParallaxHome";
 import { SocialLinks } from "./ui/SocialLinkHome";
 
 const Hero = () => {
   return (
     <section className="flex flex-col lg:flex-row items-center lg:items-start justify-around min-h-screen p-8 lg:p-16 bg-gray-900">
-      
       {/* Left Side */}
       <div className="flex flex-col items-center">
         {/* Image */}
@@ -23,9 +22,6 @@ const Hero = () => {
       <div className="lg:w-3/5 mt-8 lg:mt-0 text-center lg:text-left space-y-6">
         <FlipWordsHome />
 
-        <h1 className="text-4xl lg:text-6xl font-bold leading-tight text-red-900">
-          Hi, I’m [Your Name]
-        </h1>
         <p className="text-lg lg:text-xl text-gray-600">
           I’m a [Your Profession] passionate about creating amazing digital
           experiences. From crafting beautiful web designs to developing robust
