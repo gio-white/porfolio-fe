@@ -14,7 +14,7 @@ export const SocialLinkItem: React.FC<SocialLinkItemProps> = ({
   link,
 }) => {
   return (
-    <div className="flex flex-row text-center max-h-12 m-4 bg-black p-3 rounded-lg items-center justify-start">
+    <div className="flex flex-row text-center max-h-12 m-4 bg-black p-2 rounded-lg items-center justify-start">
       <div className="w-1/5 h-full">
         {React.cloneElement(logo, { className: "h-full w-full" })}
       </div>

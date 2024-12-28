@@ -42,6 +42,7 @@ export function ExpandableCardDemo() {
           />
         )}
       </AnimatePresence>
+
       <AnimatePresence>
         {active && typeof active === "object" ? (
           <div className="fixed inset-0  grid place-items-center z-[100]">
@@ -65,10 +66,11 @@ export function ExpandableCardDemo() {
             >
               <CloseIcon />
             </motion.button>
+
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-[800px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
                 <Image
@@ -97,18 +99,35 @@ export function ExpandableCardDemo() {
                       {active.description}
                     </motion.p>
                   </div>
+                  <div className="flex justify-evenly gap-2">
+                    {active.ctaProjectPage ? (
+                      <motion.a
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        href={active.ctaProjectPage}
+                        target="_blank"
+                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                      >
+                        {active.ctaProjectPage}
+                      </motion.a>
+                    ) : (
+                      <></>
+                    )}
 
-                  <motion.a
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    href={active.ctaLink}
-                    target="_blank"
-                    className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
-                  >
-                    {active.ctaText}
-                  </motion.a>
+                    <motion.a
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      href={active.ctaLink}
+                      target="_blank"
+                      className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                    >
+                      {active.ctaText}
+                    </motion.a>
+                  </div>
                 </div>
                 <div className="pt-4 relative px-4">
                   <motion.div
@@ -128,7 +147,8 @@ export function ExpandableCardDemo() {
           </div>
         ) : null}
       </AnimatePresence>
-      <ul className="max-w-2xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 items-start gap-4">
+
+      <ul className="max-w-[65%] mx-auto w-full grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 items-start gap-4">
         {cards.map((card, index) => (
           <motion.div
             layoutId={`card-${card.title}-${id}`}
@@ -137,6 +157,7 @@ export function ExpandableCardDemo() {
             className="p-4 flex flex-col  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
           >
             <div className="flex gap-4 flex-col  w-full">
+              {/* Image */}
               <motion.div layoutId={`image-${card.title}-${id}`}>
                 <Image
                   width={100}
@@ -146,19 +167,39 @@ export function ExpandableCardDemo() {
                   className="h-60 w-full  rounded-lg object-cover object-top"
                 />
               </motion.div>
-              <div className="flex justify-center items-center flex-col">
+
+              {/* Project Title */}
+              <div className="flex justify-center items-left flex-col px-2">
                 <motion.h3
                   layoutId={`title-${card.title}-${id}`}
-                  className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
+                  className="font-medium text-neutral-800 dark:text-neutral-200 text-left md:text-left text-base"
                 >
                   {card.title}
                 </motion.h3>
+
+                {/* Project Area / Course */}
                 <motion.p
                   layoutId={`description-${card.description}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
+                  className="text-neutral-600 dark:text-neutral-400 text-left md:text-left text-base"
                 >
                   {card.description}
                 </motion.p>
+
+                {/* Project Tags */}
+                {card.projectTags ? (
+                  card.projectTags.map(({ name, color }) => {
+                    return (
+                      <motion.p
+                        layoutId={`description-${card.description}-${id}`}
+                        className="text-neutral-600 dark:text-neutral-400 text-left md:text-left text-base"
+                      >
+                        {name}
+                      </motion.p>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </motion.div>
@@ -208,6 +249,11 @@ const cards = [
     src: "/lana-del-rey.jpeg",
     ctaText: "Visit",
     ctaLink: "https://ui.aceternity.com/templates",
+    ctaProjectPage: "Go to Project Website",
+    projectTags: [
+      { name: "React/Next.JS", color: "#2976f2" },
+      { name: "Go", color: "#0f3c85" },
+    ],
     content: () => {
       return (
         <p>
