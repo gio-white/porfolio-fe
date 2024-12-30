@@ -3,18 +3,23 @@ import Image from "next/image";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/UseOutsideClick";
+import { Tags } from "@/data/projects/ProjectSummary";
+import { ProjectSummaryCard } from "./ui/Card";
+import { getAllSummaries } from "@/lib/ProjectProviders";
+
 
 export function ExpandableCardDemo() {
-  const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
+  const [active, setActive] = useState<(typeof projects)[number] | boolean | null>(
     null
   );
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
+  const projects = getAllSummaries();
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setActive(false);
+        setActive(null);
       }
     }
 
@@ -32,6 +37,7 @@ export function ExpandableCardDemo() {
 
   return (
     <>
+      {/* Modal bg */}
       <AnimatePresence>
         {active && typeof active === "object" && (
           <motion.div
@@ -43,30 +49,10 @@ export function ExpandableCardDemo() {
         )}
       </AnimatePresence>
 
+      {/* Card modal */}
       <AnimatePresence>
         {active && typeof active === "object" ? (
           <div className="fixed inset-0  grid place-items-center z-[100]">
-            <motion.button
-              key={`button-${active.title}-${id}`}
-              layout
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-                transition: {
-                  duration: 0.05,
-                },
-              }}
-              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
-              onClick={() => setActive(null)}
-            >
-              <CloseIcon />
-            </motion.button>
-
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
@@ -93,27 +79,25 @@ export function ExpandableCardDemo() {
                       {active.title}
                     </motion.h3>
                     <motion.p
-                      layoutId={`description-${active.description}-${id}`}
+                      layoutId={`description-${active.author}-${id}`}
                       className="text-neutral-600 dark:text-neutral-400 text-base"
                     >
-                      {active.description}
+                      {active.author}
                     </motion.p>
                   </div>
                   <div className="flex justify-evenly gap-2">
-                    {active.ctaProjectPage ? (
+                    {active.projectPage && (
                       <motion.a
                         layout
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        href={active.ctaProjectPage}
+                        href={active.projectPage}
                         target="_blank"
-                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                        className="px-4 py-3 text-sm rounded-full font-bold bg-[#627264] text-white"
                       >
-                        {active.ctaProjectPage}
+                        Go to web page
                       </motion.a>
-                    ) : (
-                      <></>
                     )}
 
                     <motion.a
@@ -123,219 +107,48 @@ export function ExpandableCardDemo() {
                       exit={{ opacity: 0 }}
                       href={active.ctaLink}
                       target="_blank"
-                      className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                      className="px-4 py-3 text-sm rounded-full font-bold bg-[#627264] text-white"
                     >
-                      {active.ctaText}
+                      Learn more
                     </motion.a>
                   </div>
                 </div>
-                <div className="pt-4 relative px-4">
+
+                <div className="flex justify-left ml-4">
+                    {Tags(active)}
+                </div>
+
+                {/* Content */}
                   <motion.div
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="relative pt-4 px-4 text-neutral-600 text-xs md:text-sm lg:text-base pb-10 flex flex-col items-start gap-4 dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)]"
                   >
                     {typeof active.content === "function"
                       ? active.content()
                       : active.content}
                   </motion.div>
                 </div>
-              </div>
             </motion.div>
           </div>
         ) : null}
       </AnimatePresence>
 
+      {/* Cards list */}
       <ul className="max-w-[65%] mx-auto w-full grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 items-start gap-4">
-        {cards.map((card, index) => (
-          <motion.div
-            layoutId={`card-${card.title}-${id}`}
-            key={card.title}
+        {projects.map((card, index) => (
+          <ProjectSummaryCard
+            key={index}
             onClick={() => setActive(card)}
-            className="p-4 flex flex-col  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
-          >
-            <div className="flex gap-4 flex-col  w-full">
-              {/* Image */}
-              <motion.div layoutId={`image-${card.title}-${id}`}>
-                <Image
-                  width={100}
-                  height={100}
-                  src={card.src}
-                  alt={card.title}
-                  className="h-60 w-full  rounded-lg object-cover object-top"
-                />
-              </motion.div>
-
-              {/* Project Title */}
-              <div className="flex justify-center items-left flex-col px-2">
-                <motion.h3
-                  layoutId={`title-${card.title}-${id}`}
-                  className="font-medium text-neutral-800 dark:text-neutral-200 text-left md:text-left text-base"
-                >
-                  {card.title}
-                </motion.h3>
-
-                {/* Project Area / Course */}
-                <motion.p
-                  layoutId={`description-${card.description}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-left md:text-left text-base"
-                >
-                  {card.description}
-                </motion.p>
-
-                {/* Project Tags */}
-                {card.projectTags ? (
-                  card.projectTags.map(({ name, color }) => {
-                    return (
-                      <motion.p
-                        layoutId={`description-${card.description}-${id}`}
-                        className="text-neutral-600 dark:text-neutral-400 text-left md:text-left text-base"
-                      >
-                        {name}
-                      </motion.p>
-                    );
-                  })
-                ) : (
-                  <></>
-                )}
-              </div>
-            </div>
-          </motion.div>
+            summary={card}
+            index={index}
+            id={id}/>
         ))}
       </ul>
     </>
   );
 }
 
-export const CloseIcon = () => {
-  return (
-    <motion.svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-black"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </motion.svg>
-  );
-};
-
-const cards = [
-  {
-    description: "Lana Del Rey",
-    title: "Summertime Sadness",
-    src: "/lana-del-rey.jpeg",
-    ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
-    ctaProjectPage: "Go to Project Website",
-    projectTags: [
-      { name: "React/Next.JS", color: "#2976f2" },
-      { name: "Go", color: "#0f3c85" },
-    ],
-    content: () => {
-      return (
-        <p>
-          Lana Del Rey, an iconic American singer-songwriter, is celebrated for
-          her melancholic and cinematic music style. Born Elizabeth Woolridge
-          Grant in New York City, she has captivated audiences worldwide with
-          her haunting voice and introspective lyrics. <br /> <br /> Her songs
-          often explore themes of tragic romance, glamour, and melancholia,
-          drawing inspiration from both contemporary and vintage pop culture.
-          With a career that has seen numerous critically acclaimed albums, Lana
-          Del Rey has established herself as a unique and influential figure in
-          the music industry, earning a dedicated fan base and numerous
-          accolades.
-        </p>
-      );
-    },
-  },
-  {
-    description: "Babbu Maan",
-    title: "Mitran Di Chhatri",
-    src: "/lana-del-rey.jpeg",
-    ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
-    content: () => {
-      return (
-        <p>
-          Babu Maan, a legendary Punjabi singer, is renowned for his soulful
-          voice and profound lyrics that resonate deeply with his audience. Born
-          in the village of Khant Maanpur in Punjab, India, he has become a
-          cultural icon in the Punjabi music industry. <br /> <br /> His songs
-          often reflect the struggles and triumphs of everyday life, capturing
-          the essence of Punjabi culture and traditions. With a career spanning
-          over two decades, Babu Maan has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
-        </p>
-      );
-    },
-  },
-
-  {
-    description: "Metallica",
-    title: "For Whom The Bell Tolls",
-    src: "/lana-del-rey.jpeg",
-    ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
-    content: () => {
-      return (
-        <p>
-          Metallica, an iconic American heavy metal band, is renowned for their
-          powerful sound and intense performances that resonate deeply with
-          their audience. Formed in Los Angeles, California, they have become a
-          cultural icon in the heavy metal music industry. <br /> <br /> Their
-          songs often reflect themes of aggression, social issues, and personal
-          struggles, capturing the essence of the heavy metal genre. With a
-          career spanning over four decades, Metallica has released numerous hit
-          albums and singles that have garnered them a massive fan following
-          both in the United States and abroad.
-        </p>
-      );
-    },
-  },
-  {
-    description: "Lord Himesh",
-    title: "Aap Ka Suroor",
-    src: "/lana-del-rey.jpeg",
-    ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
-    content: () => {
-      return (
-        <p>
-          Himesh Reshammiya, a renowned Indian music composer, singer, and
-          actor, is celebrated for his distinctive voice and innovative
-          compositions. Born in Mumbai, India, he has become a prominent figure
-          in the Bollywood music industry. <br /> <br /> His songs often feature
-          a blend of contemporary and traditional Indian music, capturing the
-          essence of modern Bollywood soundtracks. With a career spanning over
-          two decades, Himesh Reshammiya has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
-        </p>
-      );
-    },
-  },
-];
+                    // className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
