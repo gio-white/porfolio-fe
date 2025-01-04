@@ -12,6 +12,25 @@ export function getSummaryById(id: number) : ProjectSummary | null {
     return cards[idx];
 }
 
+export interface Project {
+    id: number,
+    title: string
+}
+
+export function getProjects() : Project[] {
+    return []
+}
+
+export function getProjectById(id: number) : Project | null {
+    let idx = projects.findIndex((s) => {return s.id === id;});
+    if (idx === -1) {
+        return null
+    }
+    return projects[idx];
+}
+
+const projects: Project[] = []
+
 const cards: ProjectSummary[] = [
   {
     id: 1,
