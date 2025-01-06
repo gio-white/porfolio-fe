@@ -1,4 +1,5 @@
-import { ProjectSummary } from "@/data/projects/ProjectSummary";
+import { ProjectSummary } from "@/app/projects/ProjectSummary";
+import { Project } from "./Project";
 
 export function getAllSummaries() : ProjectSummary[] {
     return cards;
@@ -10,11 +11,6 @@ export function getSummaryById(id: number) : ProjectSummary | null {
         return null
     }
     return cards[idx];
-}
-
-export interface Project {
-    id: number,
-    title: string
 }
 
 export function getProjects() : Project[] {
@@ -29,7 +25,31 @@ export function getProjectById(id: number) : Project | null {
     return projects[idx];
 }
 
-const projects: Project[] = []
+const projects: Project[] = [
+    {
+        id: 1,
+        title: "Summertime Sadness",
+        description: [
+            "This is a brief description for something",
+            "This description will instead refer to the mage below",
+            {
+                url: "/lana-del-rey.jpeg",
+                caption: "Random image caption",
+                alt: "Random image",
+                width: 900,
+                height: 900,
+            },
+            "That is another description for other stuffs and the following is an image that describe what I'm saying",
+            {
+                url: "/lana-del-rey.jpeg",
+                caption: "Random image caption",
+                alt: "Random image",
+                width: 800,
+                height: 800,
+            },
+        ]
+    }
+]
 
 const cards: ProjectSummary[] = [
   {
@@ -37,7 +57,7 @@ const cards: ProjectSummary[] = [
     author: "Lana Del Rey",
     title: "Summertime Sadness",
     src: "/lana-del-rey.jpeg",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "projects/1",
     projectPage: "https://github.com/matto1matteo/portfolio-be",
     projectTags: [
       { name: "React/Next.JS", color: "#2976f2" },
