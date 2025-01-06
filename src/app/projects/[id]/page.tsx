@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
-import { getProjectById, getSummaryById } from "@/lib/ProjectProviders"
 import ProjectDetails from "./ProjectDetails"
 import { ReactElement } from "react"
+import { getProjectById } from "../Providers"
 
 export interface RouteParameters {
     id: string

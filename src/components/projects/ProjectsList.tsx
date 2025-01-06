@@ -3,9 +3,8 @@ import Image from "next/image";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/UseOutsideClick";
-import { Tags } from "@/data/projects/ProjectSummary";
-import { ProjectSummaryCard } from "./ui/Card";
-import { getAllSummaries } from "@/lib/ProjectProviders";
+import { Tags, Card } from "@/app/projects/ProjectSummary";
+import { getAllSummaries } from "@/app/projects/Providers";
 
 
 export function ExpandableCardDemo() {
@@ -106,7 +105,6 @@ export function ExpandableCardDemo() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       href={active.ctaLink}
-                      target="_blank"
                       className="px-4 py-3 text-sm rounded-full font-bold bg-[#627264] text-white"
                     >
                       Learn more
@@ -139,7 +137,7 @@ export function ExpandableCardDemo() {
       {/* Cards list */}
       <ul className="max-w-[65%] mx-auto w-full grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 items-start gap-4">
         {projects.map((card, index) => (
-          <ProjectSummaryCard
+          <Card
             key={index}
             onClick={() => setActive(card)}
             summary={card}
