@@ -1,10 +1,9 @@
 import { FlipWordsHome } from "./ui/FlipWordsHome";
-import { ProjectsParallaxHome } from "./ui/ProjectsParallaxHome";
 import { SocialLinks } from "./ui/SocialLinkHome";
 
 const Hero = () => {
   return (
-    <section className="flex flex-col lg:flex-row items-center lg:items-start justify-around min-h-screen p-8 lg:p-16 bg-gray-900">
+    <section className="flex flex-col max-w-[80%] max-h-fit mx-auto lg:flex-row items-center lg:items-start justify-around p-[50px] lg:p-16 bg-gray-900">
       {/* Left Side */}
       <div className="flex flex-col items-center">
         {/* Image */}
@@ -30,7 +29,7 @@ const Hero = () => {
         </p>
         <a
           href="/contact"
-          className="inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600"
+          className=" max-w-fit flex px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 mx-auto"
         >
           Contact Me
         </a>

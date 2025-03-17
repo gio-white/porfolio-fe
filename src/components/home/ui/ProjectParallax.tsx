@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export const HeroParallax = ({
+export const ProjectParallax = ({
   products,
 }: {
   products: {
@@ -87,15 +87,6 @@ export const HeroParallax = ({
             />
           ))}
         </motion.div>
-        {/* <motion.div className="flex flex-row-reverse space-x-reverse space-x-10">
-          {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
-          ))}
-        </motion.div> */}
       </motion.div>
     </div>
   );
@@ -138,7 +129,7 @@ export const ProductCard = ({
         y: -20,
       }}
       key={product.title}
-      className="group/product h-80 w-80 md:w-96 relative flex-shrink-0"
+      className="group/product h-72 w-80 md:w-96 relative flex-shrink-0"
     >
       <Link
         href={product.link}

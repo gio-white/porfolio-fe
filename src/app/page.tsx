@@ -1,8 +1,12 @@
-import Hero from "@/components/home/Hero";
-import TechStackBanner from "@/components/home/TechStackBanner";
-import { ProjectsParallaxHome } from "@/components/home/ui/ProjectsParallaxHome";
+import Hero from "@/components/home/HeroSection";
+import TechStackBanner from "@/components/home/TechBanner";
+import { ProjectsParallaxHome } from "@/components/home/ProjectSection";
 import Link from "next/link";
-import CertAndCourses from "@/components/home/CertAndCourses";
+import CertAndCourses from "@/components/home/CertCourseSection";
+import { certification } from "@/data/home-page/course-certification";
+import { CourseCardItems } from "@/components/home/ui/CourseCard";
+import Projects from "@/components/home/ProjectsSection";
+ 
 
 export default function Home() {
   return (
@@ -10,6 +14,9 @@ export default function Home() {
       <Hero />
       <div className="relative w-[calc(100vw-1rem)] left-[calc(-50vw+50%)]">
         <ProjectsParallaxHome />
+      </div>
+      <div className="relative w-[calc(100vw-1rem)] left-[calc(-50vw+50%)]">
+        <Projects />
       </div>
       <div className="flex">
         <Link
@@ -21,6 +28,7 @@ export default function Home() {
       </div>
       <TechStackBanner />
       <CertAndCourses />
+      <CourseCardItems courseList={certification} />
     </main>
   );
 }
